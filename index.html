@@ -1,12 +1,46 @@
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	</head>
-    <body>
-		<canvas id="canvas" width="400" height="400">Install gentoo</canvas>
-		<div id="out"></div>
-		<script>
-	    var canvas = document.getElementById("canvas");
+<!DOCTYPE html>
+<style>
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size:20px;
+}
+</style>
+<html> 
+  <head>
+    <title>JOGOS</title> 
+  </head>
+<div class="header">
+  <h1>Jogos em Javascript</h1>
+  <p>Projeto HAC da Joana</p>
+	
+	<a class="button" href="https://joana007.github.io/snake">Snake</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	<a class="button" href="https://joana007.github.io/golden">Paddle Ball</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    
+    <button class="button" value="Refresh"onClick="window.location.href=window.location.href">Refresh</button>
+
+</div>		
+	
+  <body>
+	  <!--
+	  <button onclick="restart()">
+		  Restart
+	  </button> -->
+	<!--This draws the canvas on the webpage -->
+    <canvas id="mycanvas"></canvas> 
+	 
+  </body>
+<script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
+<script>  
+var canvas = document.getElementById("canvas");
 var c = canvas.getContext("2d");
 var out = document.getElementById("out");
 window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
@@ -297,6 +331,5 @@ function renderBricks(){
 		c.restore();	
 	}
 }
-	    </script>	
-    </body>
+  </script>
 </html>
