@@ -1,112 +1,168 @@
 <!DOCTYPE html>
-<html> 
-  <head>
+<!-- saved from url=(0030)https://alicegeada2.github.io/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>JOGOS</title> 
-  </head>
-<div class="header">
-  <h1>Jogos em Javascript</h1>
-  <p>Projeto HAC da Joana</p>
+  <style type="text/css">@font-face {
+  font-family: "PjsEmptyFont";
+  src: url('data:application/x-font-ttf;base64,AAEAAAAKAIAAAwAgT1MvMgAAAAAAAAEoAAAAVmNtYXAAAAAAAAABiAAAACxnbHlmAAAAAAAAAbwAAAAkaGVhZAAAAAAAAACsAAAAOGhoZWEAAAAAAAAA5AAAACRobXR4AAAAAAAAAYAAAAAGbG9jYQAAAAAAAAG0AAAABm1heHAAAAAAAAABCAAAACBuYW1lAAAAAAAAAeAAAAAgcG9zdAAAAAAAAAIAAAAAEAABAAAAAQAAAkgTY18PPPUACwAgAAAAALSRooAAAAAAyld0xgAAAAAAAQABAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAEAAAACAAIAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACMAIwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAMAAQAAAAwABAAgAAAABAAEAAEAAABB//8AAABB////wAABAAAAAAAAAAgAEgAAAAEAAAAAAAAAAAAAAAAxAAABAAAAAAABAAEAAQAAMTcBAQAAAAAAAgAeAAMAAQQJAAEAAAAAAAMAAQQJAAIAAgAAAAAAAQAAAAAAAAAAAAAAAAAA')
+       format('truetype');
+}</style></head>
+<body><div class="header">
+  <h1>Alice Geada - HAC</h1
 </div>	
 	
-  <body>
+  
 	<!--This draws the canvas on the webpage -->
-    <canvas id="mycanvas"></canvas> 
-  </body>
+    <canvas id="mycanvas" tabindex="0" width="1000" height="500" style="image-rendering: -webkit-optimize-contrast !important;"></canvas> 
+  
 
 
- 
   <!-- Include the processing.js library -->
   <!-- See https://khanacademy.zendesk.com/hc/en-us/articles/202260404-What-parts-of-ProcessingJS-does-Khan-Academy-support- for differences -->
-  <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
+  <script src="./JOGOS_files/processing.min.js"></script> 
   <script>
   var programCode = function(processingInstance) {
     with (processingInstance) {
-      size(1000, 500); 
+      size(400, 400); 
      // frameRate(30);
         
       // Paste code from Khan Academy here:
 	    // COLOCAR O JOGO AQUI
 
 
-var main = function(){
-var paddleWidth = 100;
+		var main = function(){
+		var paddleWidth = 100;
 
-// the speed of the ball when it first leaves the paddle
-var initialSpeedX = 5;
-var initialSpeedY = -6;
+		// the speed of the ball when it first leaves the paddle
+		var initialSpeedX = 5;
+		var initialSpeedY = -6;
 
-// the current speed of the ball
-var ballSpeedX = initialSpeedX;
-var ballSpeedY = initialSpeedY;
+		// the current speed of the ball
+		var ballSpeedX = initialSpeedX;
+		var ballSpeedY = initialSpeedY;
 
-// the current location of the ball
-var ballX = 0;
-var ballY = 0;
+		// the current location of the ball
+		var ballX = 0;
+		var ballY = 0;
 
-// true if ball is moving, false if ball is attached to paddle
-var ballMoving = false;
+		// true if ball is moving, false if ball is attached to paddle
+		var ballMoving = false;
 
-// this function gets called automatically
-// when the mouse is clicked
+		// this function gets called automatically
+		// when the mouse is clicked
+		var brickRowCount = 5;
+		var brickColumnCount = 3;
+		var brickWidth = 65;
+		var brickHeight = 15;
+		var brickPadding = 5;
+		var brickOffsetTop = 30;
+		var brickOffsetLeft = 20;
+		var bricks = [];
+		var score=0;
+		for(var c=0; c<brickColumnCount; c++) {
+		  bricks[c] = [];
+		  for(var r=0; r<brickRowCount; r++) {
+			bricks[c][r] = { x: 0, y: 0, status: 1 };
+		  }
+		}
+		function drawBricks() {
+		  for(var c=0; c<brickColumnCount; c++) {
+			for(var r=0; r<brickRowCount; r++) {
+			  if(bricks[c][r].status == 1) {
+				var brickX = (r*(brickWidth+brickPadding))+brickOffsetLeft;
+				var brickY = (c*(brickHeight+brickPadding))+brickOffsetTop;
+				bricks[c][r].x = brickX;
+				bricks[c][r].y = brickY;
+				//definir cor dos blocos
+				fill(240, 126, 65);
+			    rect(brickX, brickY, brickWidth, brickHeight);
+			  }
+			}
+		  }
+		}
 
-draw = function() {
-    background(0, 108, 135);
-    
-    // draw the paddle
-    fill(240, 126, 65);
-    rect(mouseX - paddleWidth/2, 350, paddleWidth, 10);
-    
-    // move the ball
-    if (ballMoving) {
-        ballX += ballSpeedX;
-        ballY += ballSpeedY;
-    }
-    else {
-        ballX = mouseX;
-        ballY = 340;
-    }
-    
-    // draw the ball
-    fill(255, 234, 0);
-    ellipse(ballX, ballY, 20, 20);
-    
-    // check if ball has hit the top wall
-    if (ballY <= 10) {
-        ballSpeedY = -ballSpeedY;
-    }
-    // check if the ball has hit the left wall
-    if (ballX <= 10) {
-        ballSpeedX = -ballSpeedX;
-    }
-    // check if the ball has hit the right wall
-    if (ballX >= 390) {
-        ballSpeedX = -ballSpeedX;
-    }
-    // check if the ball has hit the paddle
-    if (ballY >= 340 && ballY < 346 && ballX >= mouseX - paddleWidth/2 && ballX <= mouseX + paddleWidth/2) {
-        ballSpeedY = -ballSpeedY;
-    }
-    // check if ball fell out the bottom
-    if (ballY >= 400) {
-        ballMoving = false;
-    }
-};
-	var mouseClicked = function() {
-    if (!ballMoving) {
-        // reset the ball speed
-        ballSpeedX = initialSpeedX;
-        ballSpeedY = initialSpeedY;
-        
-        ballMoving = true;
-    }
-};
-};
-main();
+
+		function collisionDetection(x,y) {
+		  for(var c=0; c<brickColumnCount; c++) {
+			for(var r=0; r<brickRowCount; r++) {
+			  var b = bricks[c][r];
+			  if(b.status == 1) {
+				if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+				  ballSpeedY = -ballSpeedY;
+				  b.status = 0;
+				  score++;
+				  if(score == brickRowCount*brickColumnCount) {
+				   	alert("YOU WIN, CONGRATS!");
+				  }
+				}
+			  }
+			}
+		  }
+		}
+
+		draw = function() {
+			background(0, 108, 135);
+			
+			// draw the paddle
+			fill(240, 126, 65);
+			rect(mouseX - paddleWidth/2, 350, paddleWidth, 10);
+			
+			drawBricks();
+			collisionDetection(ballX, ballY)
+			
+			// move the ball
+			if (ballMoving) {
+				ballX += ballSpeedX;
+				ballY += ballSpeedY;
+			}
+			else {
+				ballX = mouseX;
+				ballY = 340;
+			}
+			
+			// draw the ball
+			fill(255, 234, 0);
+			ellipse(ballX, ballY, 20, 20);
+			
+			// check if ball has hit the top wall
+			if (ballY <= 10) {
+				ballSpeedY = -ballSpeedY;
+			}
+			// check if the ball has hit the left wall
+			if (ballX <= 10) {
+				ballSpeedX = -ballSpeedX;
+			}
+			// check if the ball has hit the right wall
+			if (ballX >= 390) {
+				ballSpeedX = -ballSpeedX;
+			}
+			// check if the ball has hit the paddle
+			if (ballY >= 340 && ballY < 346 && ballX >= mouseX - paddleWidth/2 && ballX <= mouseX + paddleWidth/2) {
+				ballSpeedY = -ballSpeedY;
+			}
+			// check if ball fell out the bottom
+			if (ballY >= 400) {
+				ballMoving = false;
+			}
+		};
+		mousePressed = function(){
+			if (!ballMoving) {
+				// reset the ball speed
+				ballSpeedX = initialSpeedX;
+				ballSpeedY = initialSpeedY;
+				
+				ballMoving = true;
+			}
+		};
+
+		};
+		main();
 	        
     }};
   // Get the canvas that ProcessingJS will use
   var canvas = document.getElementById("mycanvas"); 
   // Pass the function to ProcessingJS constructor
   var processingInstance = new Processing(canvas, programCode); 
-  </script>
-</html>
+  </script><span style="position: absolute; top: 0px; left: 0px; opacity: 0; font-family: PjsEmptyFont, fantasy;">AAAAAAAA</span>
+
+</body></html>
