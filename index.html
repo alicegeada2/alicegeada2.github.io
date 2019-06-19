@@ -34,7 +34,14 @@
   </body>
 <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
   <script>  
-	var canvas = document.getElementById("myCanvas");
+	  
+	  var programCode = function(processingInstance) {
+	    with (processingInstance) {
+	      size(500, 500); 
+
+	  document.getElementById("mycanvas").focus();
+
+ var canvas = document.getElementById("myCanvas");
 	var ctx = canvas.getContext("2d");
 	var ballRadius = 10;
 	var x = canvas.width/2;
@@ -201,5 +208,16 @@
 	}
 
 	draw();
+ }};
+	  
+ var canvas = document.getElementById("mycanvas"); 
+  // Pass the function to ProcessingJS constructor
+  var processingInstance = new Processing(canvas, programCode); 
+	var restart = function(){
+		    console.log("restart");
+		    START_LENGTH = 1;
+	    //startGame();
+	    };	  
+	
   </script>
 </html>
