@@ -27,8 +27,8 @@
       // Paste code from Khan Academy here:
 	    // COLOCAR O JOGO AQUI
 
-	    noStroke();
 
+var main = function(){
 var paddleWidth = 100;
 
 // the speed of the ball when it first leaves the paddle
@@ -46,7 +46,10 @@ var ballY = 0;
 // true if ball is moving, false if ball is attached to paddle
 var ballMoving = false;
 
-var draw = function() {
+// this function gets called automatically
+// when the mouse is clicked
+
+draw = function() {
     background(0, 108, 135);
     
     // draw the paddle
@@ -88,10 +91,7 @@ var draw = function() {
         ballMoving = false;
     }
 };
-
-// this function gets called automatically
-// when the mouse is clicked
-var mouseClicked = function() {
+	var mouseClicked = function() {
     if (!ballMoving) {
         // reset the ball speed
         ballSpeedX = initialSpeedX;
@@ -100,180 +100,9 @@ var mouseClicked = function() {
         ballMoving = true;
     }
 };
-	    
-var main = function(){
-noStroke();
-textAlign(CENTER, CENTER);
-smooth();
-var clique = false, acc = 0;
-var CreateFont = (function () {
-    return this.Function ( "gfName", 
-        "gfName = gfName.replace (/\\s+/g, '+');" + 
-        "var subsets = Array.prototype.slice.call(arguments, 1, arguments.length - 1);" + 
-        "var url = 'https://fonts.googleapis.com/css?family=' + gfName + ( subsets.length > 0 ? '&amp;subset=' + subsets : ''), callback = arguments[arguments.length - 1];" +
-        "var gfs = document.querySelectorAll('link[href=\"' + url+'\"]');" + 
-        "if (!gfs.length) {" + 
-            "var f = document.createElement('link');" + 
-            "f.setAttribute('rel', 'stylesheet');" + 
-            "f.setAttribute('type', 'text/css');" + 
-            "f.onload = callback;" +    
-            "f.setAttribute('href', url);" + 
-            "document.head.appendChild(f);" + 
-        "} else if (typeof callback === 'function') {" + 
-            "callback.call(gfs[0]);" + 
-        "}"
-    );
-})();
-CreateFont("Bangers");
-var B = createFont("Bangers");
-var maxHeight = 100;
-var Block = function(x, y, l, w, h, f){
-    this.x = x * pow(3, 0.5) / 2 + y * pow(3, 0.5) / 2;
-    this.y = - y * 1 / 2 + x * 1 / 2;
-    
-    this.l = l;
-    this.w = w;
-    this.h = h;
-    this.origh = h;
-    
-    this.fall = 0;
-    
-    this.xFactor = pow(3, 0.5) / 2;
-    this.yFactor = 1 / 2;
-    
-    this.f = f;
-    this.origf = f;
-    
-    this.allBump = random() * 100;
-    this.accBump = 0;
-    this.changeBump = 0;
-    this.prop = random() / 2 + 0.5;
-};
-Block.prototype.display = function() {
-    stroke(0, 10);
-    strokeWeight(2);
-    fill(blendColor(blendColor(this.f, color(0, 0, 0), SOFT_LIGHT), color(0, 0, 0), SOFT_LIGHT));
-    quad(this.x, this.y, this.x, this.y - this.h, this.x + this.l * this.xFactor, this.y - this.h - this.l * this.yFactor, this.x + this.l * this.xFactor, this.y - this.l * this.yFactor);
-    fill(blendColor(this.f, color(0, 0, 0), SOFT_LIGHT));
-    quad(this.x, this.y, this.x, this.y - this.h, this.x - this.w * this.xFactor, this.y - this.h - this.w * this.yFactor, this.x - this.w * this.xFactor, this.y - this.w * this.yFactor);
-    fill(this.f);
-    quad(this.x - this.w * this.xFactor, this.y - this.h - this.w * this.yFactor,  this.x, this.y - this.h, this.x + this.l * this.xFactor, this.y - this.h - this.l * this.yFactor, this.x - this.w * this.xFactor + this.l * this.xFactor, this.y - this.h - this.w * this.yFactor - this.l * this.yFactor);
-    
-    noStroke();
-};
-Block.prototype.animate = function() {
-    this.f = lerpColor(color(0), this.origf, this.h / (maxHeight + this.origh - this.fall));
-    this.h = this.accBump * this.prop + this.origh - this.fall;
-    
-    if(this.accBump < this.allBump){
-        this.accBump -= (this.accBump - this.allBump) / 2;
-    } else {
-        this.accBump -= (this.accBump - 0) / 100;    
-    }
-    
-    this.changeBump -= (this.changeBump - this.allBump)/3;
-    if(abs(this.changeBump - this.allBump) < 3){
-        this.allBump = random() * maxHeight;    
-    }
-};
-var blocks = [];
-for(var i = 0; i < 13; i++){
-    for(var j = 0; j < 13; j++){
-        blocks.push(new Block(50 * i + 250, (10 - j) * 50 - 750, 50, 50, 475, color(j*25, j*8, 255-j*25)));    
-    }
-}
-var signum = function(x){
-    if(x < 0){ return 1; } else { return 0; }
-};
-var Title = [1000, 10000];
-draw = function() {
-    background(0, 0, 0);
-    
-    pushMatrix();
-        translate(width / 2, height / 2);
-        
-        for(var i = 0; i < blocks.length; i++){
-            blocks[i].display();
-            blocks[i].animate();
-        }
-    popMatrix();
-    
-    pushMatrix();
-        translate(width / 2 - 40 - Title[0] * signum(Title[0]) * 1.73, 95 - Title[0]);
-        scale(0.4, 0.5);
-        rotate(-24.5);
-        scale(2.5, 1);
-        
-        for(var i = 0; i < 20; i++){
-            fill(0);
-            textFont(B, 40);
-            text("Jogos", -30 + i*1.5, 70 + i*4.5);
-        }
-        
-        fill(255);
-        textFont(B, 40);
-        text("Jogos", 0, 160);
-    popMatrix();
-    
-    pushMatrix();
-        translate(width / 2 - 50 - Title[1] * signum(Title[1]) * 1.73, 100 - Title[1]);
-        scale(0.4, 0.5);
-        rotate(-24.5);
-        scale(2.5, 1);
-        
-        for(var i = 0; i < 20; i++){
-            fill(0);
-            textFont(B, 150);
-            text("Joana", -30 + i*1.5, -60 + i*4.5);
-        }
-        
-        fill(255);
-        textFont(B, 150);
-        text("Joana", 0, 30);
-    popMatrix();
-    
-    if(clique){
-        blocks[blocks.length - 1].fall -= (blocks[blocks.length - 1].fall - 1000) / 10;    
-        for(var i = blocks.length - 2; i >= 0; i--){
-            if(blocks[i + 1].fall > 50){
-                blocks[i].fall -= (blocks[i].fall - 1000) / 20;    
-            }
-        }
-        Title[0] -= acc;
-        Title[1] -= acc;
-        acc += 1.3;
-	window.location.pathname = '/snake'
-    } else {
-        Title[0] -= Title[0] / 4;
-        Title[1] -= Title[1] / 4;    
-    }
-    
-    fill(0, acc);
-    rect(0, 0, width, height);
-    
-    if(acc >= 255){
-        clique = false;
-        Title = [1000, 10000];
-        maxHeight = 100;
-        acc = 0;
-        blocks = [];
-        for(var i = 0; i < 13; i++){
-            for(var j = 0; j < 13; j++){
-                blocks.push(new Block(50 * i + 250, (10 - j) * 50 - 750, 50, 50, 475, color(j*25, j*8, 255-j*25)));    
-            }
-        }
-    }
-};
-mousePressed = function(){
-    if(round(Title[1]) === 0){ 
-        clique = true;   
-    }
-};
 };
 main();
-	    
-	    
-	    
+	        
     }};
   // Get the canvas that ProcessingJS will use
   var canvas = document.getElementById("mycanvas"); 
