@@ -40,6 +40,11 @@
   </body>
 <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
 <script>  
+	
+	document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+document.addEventListener("mousemove", mouseMoveHandler, false);
+	
 var canvas = document.getElementById("canvas");
 var c = canvas.getContext("2d");
 var out = document.getElementById("out");
